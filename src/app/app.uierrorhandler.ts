@@ -16,7 +16,7 @@ export class UIErrorHandler extends ErrorHandler {
         this.modalService.openModal(`${error.error.message}`);
       }
     } else {
-      this.modalService.openModal('An Unexpected fail ocurred. Please try again later.');
+      this.modalService.openModal('An Unexpected fail ocurred. Please try again later \n' + `${error.message}`);
     }
   }
 
