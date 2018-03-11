@@ -6,6 +6,7 @@ import { HistoricComponent } from '../historic/historic.component';
 import { DataService } from '../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ModalService } from '../service/modal.service';
+import { LoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-conversion',
@@ -13,6 +14,8 @@ import { ModalService } from '../service/modal.service';
   styleUrls: ['./conversion.component.css']
 })
 export class ConversionComponent implements OnInit {
+
+  public loading = false;
 
   subscription: Subscription;
   currencyList: Currency[];
@@ -45,11 +48,13 @@ export class ConversionComponent implements OnInit {
 
   onConversion() {
     if ( this.quotation.isValid() ) {
+      this.loading = true;
       this.currencyService.quote(this.quotation).subscribe(
         data => {
           const newQuotation = <Quotation>data;
           this.quotation.result = newQuotation.result;
           this.announceNewQuotation(newQuotation);
+          this.loading = false;
         }
       );
     } else {
