@@ -5,6 +5,7 @@ import { Quotation } from '../model/quotation';
 import { HistoricComponent } from '../historic/historic.component';
 import { DataService } from '../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
+import { LoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-conversion',
@@ -12,6 +13,10 @@ import { Subscription } from 'rxjs/Subscription';
   styleUrls: ['./conversion.component.css']
 })
 export class ConversionComponent implements OnInit {
+  @ViewChild('fieldAmount', {read: ElementRef}) fieldAmountRef: ElementRef;
+
+  public loading = false;
+
   subscription: Subscription;
   currencyList: Currency[];
   currency: Currency;
@@ -32,6 +37,9 @@ export class ConversionComponent implements OnInit {
         this.quotation.source = historicQuotation.source;
         this.quotation.amount = historicQuotation.amount;
         this.quotation.destination = historicQuotation.destination;
+
+        this.renderer.setElementStyle(this.fieldAmountRef.nativeElement, 'display', 'block');
+
         this.changeDetector.detectChanges();
         this.onConversion();
       }
@@ -47,11 +55,13 @@ export class ConversionComponent implements OnInit {
   }
 
   onConversion() {
+    this.loading = true;
     this.currencyService.quote(this.quotation).subscribe(
       data => {
         const newQuotation = <Quotation>data;
         this.quotation.result = newQuotation.result;
         this.announceNewQuotation(newQuotation);
+        this.loading = false;
       }
     );
   }

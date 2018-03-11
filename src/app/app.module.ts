@@ -11,6 +11,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { LoadingModule } from 'ngx-loading';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AuthService } from './service/auth.service';
@@ -30,6 +31,7 @@ import { ConversionComponent } from './conversion/conversion.component';
 import { HistoricComponent } from './historic/historic.component';
 import { CurrencyService } from './service/currency.service';
 import { Interceptor } from './app.interceptor';
+
 
 @NgModule({
   declarations: [
@@ -51,7 +53,10 @@ import { Interceptor } from './app.interceptor';
     TooltipModule.forRoot(),
     ModalModule.forRoot(),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    LoadingModule.forRoot({
+      fullScreenBackdrop : true
+    })
   ],
   entryComponents: [
     // Add here components that are created dynamically.

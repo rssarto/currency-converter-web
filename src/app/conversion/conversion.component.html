@@ -1,4 +1,5 @@
 <div class="container-fluid">
+  <ngx-loading [show]="loading"></ngx-loading>
   <h2>Do your Conversion</h2>
   <form #formConversion="ngForm" class="form-horizontal">
     <div class="form-group">
@@ -9,7 +10,7 @@
           </select>
       </div>
     </div>
-    <div [hidden]="!(fieldSourceCurrency.pristine === false)" [ngClass]="((fieldAmount.errors && (fieldAmount.dirty || fieldAmount.touched)) || fieldAmount.value === '0' && (fieldAmount.dirty || fieldAmount.touched)) ? 'form-group has-error' : 'form-group'">
+    <div [style.display]="!(fieldSourceCurrency.pristine === false) ? 'none' : 'block'" [ngClass]="((fieldAmount.errors && (fieldAmount.dirty || fieldAmount.touched)) || fieldAmount.value === '0' && (fieldAmount.dirty || fieldAmount.touched)) ? 'form-group has-error' : 'form-group'">
       <label  class="col-sm-4 control-label" for="amount">Amount</label>
       <div class="col-xs-8 pull-right">
           <div class="input-group">
@@ -23,7 +24,7 @@
           </div>
       </div>
     </div>
-    <div class="form-group" [hidden]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0)" [ngClass]="( (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.value === fieldDestinationCurrency.value || (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.errors ) ? 'form-group has-error' : 'form-group'">
+    <div class="form-group" [style.display]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0) ? 'none' : 'block'" [ngClass]="( (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.value === fieldDestinationCurrency.value || (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.errors ) ? 'form-group has-error' : 'form-group'">
       <label for="destinationCurrency" class="col-sm-4 control-label">Destination Currency</label>
       <div class="col-xs-8 pull-right">
           <select class="form-control" id="destinationCurrency" name="destinationCurrency" [(ngModel)]="quotation.destination" #fieldDestinationCurrency="ngModel" required (change)="!formConversion.pristine && formConversion.valid && !(fieldAmount.value === '0') && !(fieldSourceCurrency.value === fieldDestinationCurrency.value) && onConversion()">
@@ -35,7 +36,7 @@
           </div>
       </div>
     </div>
-    <div class="form-group" [hidden]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0 && fieldDestinationCurrency.pristine == false)">
+    <div class="form-group" [style.display]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0 && fieldDestinationCurrency.pristine == false) ? 'none' : 'block'">
       <label class="col-sm-4 control-label" for="disabledTextInput">Result</label>
       <div class="col-xs-8 pull-right">
           <input type="text" id="result" name="result" class="form-control" disabled value="{{quotation.result}}">
