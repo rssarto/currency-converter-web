@@ -5,7 +5,6 @@ import { Quotation } from '../model/quotation';
 import { HistoricComponent } from '../historic/historic.component';
 import { DataService } from '../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
-import { LoadingModule } from 'ngx-loading';
 import { ModalService } from '../service/modal.service';
 
 @Component({
@@ -14,8 +13,6 @@ import { ModalService } from '../service/modal.service';
   styleUrls: ['./conversion.component.css']
 })
 export class ConversionComponent implements OnInit {
-
-  public loading = false;
 
   subscription: Subscription;
   currencyList: Currency[];
@@ -48,13 +45,11 @@ export class ConversionComponent implements OnInit {
 
   onConversion() {
     if ( this.quotation.isValid() ) {
-      this.loading = true;
       this.currencyService.quote(this.quotation).subscribe(
         data => {
           const newQuotation = <Quotation>data;
           this.quotation.result = newQuotation.result;
           this.announceNewQuotation(newQuotation);
-          this.loading = false;
         }
       );
     } else {
