@@ -6,6 +6,7 @@ import { HistoricComponent } from '../historic/historic.component';
 import { DataService } from '../service/data.service';
 import { Subscription } from 'rxjs/Subscription';
 import { LoadingModule } from 'ngx-loading';
+import { ModalService } from '../service/modal.service';
 
 @Component({
   selector: 'app-conversion',
@@ -23,7 +24,8 @@ export class ConversionComponent implements OnInit {
   result: number;
 
   constructor(private currencyService: CurrencyService,
-              private dataService: DataService) {
+              private dataService: DataService,
+              private appModalService: ModalService) {
     this.subscription = this.dataService.getHistoricQuotation().subscribe(
       data => {
         console.log('received historic quotation');
@@ -32,7 +34,6 @@ export class ConversionComponent implements OnInit {
         this.quotation.source = historicQuotation.source;
         this.quotation.amount = historicQuotation.amount;
         this.quotation.destination = historicQuotation.destination;
-        this.onConversion();
       }
     );
    }
@@ -46,15 +47,19 @@ export class ConversionComponent implements OnInit {
   }
 
   onConversion() {
-    this.loading = true;
-    this.currencyService.quote(this.quotation).subscribe(
-      data => {
-        const newQuotation = <Quotation>data;
-        this.quotation.result = newQuotation.result;
-        this.announceNewQuotation(newQuotation);
-        this.loading = false;
-      }
-    );
+    if ( this.quotation.isValid() ) {
+      this.loading = true;
+      this.currencyService.quote(this.quotation).subscribe(
+        data => {
+          const newQuotation = <Quotation>data;
+          this.quotation.result = newQuotation.result;
+          this.announceNewQuotation(newQuotation);
+          this.loading = false;
+        }
+      );
+    } else {
+      this.appModalService.openModal('Invalid quotation.');
+    }
   }
 
   announceNewQuotation(quotation: Quotation) {

@@ -5,7 +5,7 @@
     <div class="form-group">
       <label for="sourceCurrency" class="col-sm-4 control-label">Source Currency</label>
       <div class="col-xs-8 pull-right">
-        <select class="form-control" id="sourceCurrency" name="sourceCurrency" [(ngModel)]="quotation.source" #fieldSourceCurrency="ngModel" required (change)="!formConversion.pristine && formConversion.valid && (!fieldAmount.disabled && !(fieldAmount.value === '0')) && (!fieldDestinationCurrency.disabled && fieldDestinationCurrency.value !== '' && !(fieldSourceCurrency.value === fieldDestinationCurrency.value)) && onConversion()">
+        <select class="form-control" id="sourceCurrency" name="sourceCurrency" [(ngModel)]="quotation.source" #fieldSourceCurrency="ngModel" required>
               <option *ngFor="let currency of currencyList" value="{{currency.initials}}">{{currency.initials + ' - ' + currency.description}}</option>
           </select>
       </div>
@@ -14,7 +14,7 @@
       <label  class="col-sm-4 control-label" for="amount">Amount</label>
       <div class="col-xs-8 pull-right">
           <div class="input-group">
-              <input type="text" class="form-control" id="amount" name="amount" [(ngModel)]="quotation.amount" #fieldAmount="ngModel" placeholder="Amount" required minlength="1" (change)="!formConversion.pristine && formConversion.valid && (!fieldAmount.disabled && !(fieldAmount.value === '0')) && (!fieldDestinationCurrency.disabled && fieldDestinationCurrency.value !== '' && !(fieldSourceCurrency.value === fieldDestinationCurrency.value)) && onConversion()" [disabled]="!(fieldSourceCurrency.pristine === false) ? true : false">
+              <input type="text" class="form-control" id="amount" name="amount" [(ngModel)]="quotation.amount" #fieldAmount="ngModel" placeholder="Amount" required minlength="1">
               <div class="input-group-addon">.00</div>
           </div>
           <div *ngIf="((fieldAmount.errors && (fieldAmount.dirty || fieldAmount.touched)) || fieldAmount.value === '0' && (fieldAmount.dirty || fieldAmount.touched))">
@@ -27,7 +27,7 @@
     <div class="form-group" [ngClass]="( (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.value === fieldDestinationCurrency.value || (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.errors ) ? 'form-group has-error' : 'form-group'">
       <label for="destinationCurrency" class="col-sm-4 control-label">Destination Currency</label>
       <div class="col-xs-8 pull-right">
-          <select class="form-control" id="destinationCurrency" name="destinationCurrency" [(ngModel)]="quotation.destination" #fieldDestinationCurrency="ngModel" required (change)="!formConversion.pristine && formConversion.valid && (!fieldAmount.disabled && !(fieldAmount.value === '0')) && (!fieldDestinationCurrency.disabled && fieldDestinationCurrency.value !== '' && !(fieldSourceCurrency.value === fieldDestinationCurrency.value)) && onConversion()" [disabled]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0) ? true : false">
+          <select class="form-control" id="destinationCurrency" name="destinationCurrency" [(ngModel)]="quotation.destination" #fieldDestinationCurrency="ngModel" required>
               <option *ngFor="let currency of currencyList" value="{{currency.initials}}">{{currency.initials + ' - ' + currency.description}}</option>
           </select>
           <div *ngIf="( (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.value === fieldDestinationCurrency.value || (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.errors )">
@@ -37,9 +37,14 @@
       </div>
     </div>
     <div class="form-group">
+      <div class="col-xs-8 pull-right">
+        <button type="button" class="btn btn-primary" (click)="onConversion()">Convert</button>
+      </div>
+    </div>
+    <div class="form-group">
       <label class="col-sm-4 control-label" for="disabledTextInput">Result</label>
       <div class="col-xs-8 pull-right">
-          <input type="text" id="result" name="result" class="form-control" disabled value="{{quotation.result}}" [disabled]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0 && fieldDestinationCurrency.pristine == false) ? true : false">
+          <input type="text" id="result" name="result" class="form-control" [disabled]="true" value="{{quotation.result}}" [disabled]="!(fieldSourceCurrency.pristine === false && fieldAmount.value > 0 && fieldDestinationCurrency.pristine == false) ? true : false">
       </div>
     </div>
   </form>

@@ -6,4 +6,8 @@ export class Quotation {
   time: Date;
   amount: number;
   result: number;
+
+  isValid(){
+    return this.source !== '' && this.destination !== '' && this.amount > 0;
+  }
 }
