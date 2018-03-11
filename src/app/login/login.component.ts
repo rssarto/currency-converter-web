@@ -6,7 +6,6 @@ import { Credentials } from '../model/credentials';
 import { Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { ModalService } from '../service/modal.service';
-import { LoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-login',
@@ -29,30 +28,14 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.loading = true;
     this.authService.attemptAuth(new Credentials(this.userName, this.password)).subscribe(
       data => {
         this.token.saveToken(data.token);
         this.router.navigate(['panel']);
-        this.loading = false;
       },
       errorData => {
         this.appModalService.openModal('Invalid credentials.');
-        this.loading = false;
       }
     );
   }
-
-  /*
-  openModal(message: string) {
-    const initialState = {
-      list: [
-        message
-      ],
-      title: 'Message'
-    };
-    this.modalRef = this.modalService.show(ModalContentComponent, {initialState});
-    this.modalRef.content.closeBtnName = 'Close';
-  }
-  */
 }
