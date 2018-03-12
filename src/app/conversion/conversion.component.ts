@@ -21,6 +21,7 @@ export class ConversionComponent implements OnInit {
   currencyList: Currency[];
   currency: Currency;
   quotation = new Quotation;
+
   result: number;
 
   constructor(private currencyService: CurrencyService,
@@ -44,6 +45,8 @@ export class ConversionComponent implements OnInit {
         this.currencyList = <Currency[]> data;
       }
     );
+    this.quotation.source = '';
+    this.quotation.destination = '';
   }
 
   onConversion() {
