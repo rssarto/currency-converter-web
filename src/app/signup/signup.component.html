@@ -13,21 +13,20 @@
                 </div>
                 <div [ngClass]="fieldEmail.errors && (fieldEmail.dirty || fieldEmail.touched) ? 'form-group has-error' : 'form-group'">
                   <label for="email">Email address</label>
-                  <input type="email" [ngClass]="['form-control']" #fieldEmail="ngModel" name="email" placeholder="Email" [(ngModel)]="user.email" required [email]="true">
+                  <input type="email" [ngClass]="['form-control']" #fieldEmail="ngModel" name="email" placeholder="Email" [(ngModel)]="user.email" required [email]="true" (blur)="onBirthDateManipulation()">
                   <div *ngIf="fieldEmail.errors && (fieldEmail.dirty || fieldEmail.touched)">
                     <span id="helpBlock2" class="help-block" *ngIf="fieldEmail.errors.required">The user name is required.</span>
                     <span id="helpBlock2" class="help-block" *ngIf="fieldEmail.errors.email && !fieldEmail.errors.required">Invalid e-mail address.</span>
                   </div>
                 </div>
-                <!--
-                <div [ngClass]="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched) ? 'form-group has-error' : 'form-group'">
-                    <label for="country">Country</label>
-                    <input type="text" [ngClass]="['form-control']" #fieldCountry="ngModel" name="country" placeholder="Country" [(ngModel)]="user.country" required>
-                    <div *ngIf="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched)">
-                      <span id="helpBlock2" class="help-block" *ngIf="fieldCountry.errors.required">The Country is required.</span>
-                    </div>
+                <div [ngClass]="'form-control' && flagBirthDateValue.value === true && (fieldBirthDate.errors && (fieldBirthDate.dirty || fieldBirthDate.touched)) ? ' has-error' : ''">
+                  <label>Date</label>
+                  <input type="hidden" name="flagBirthDateValue" id="flagBirthDateValue" [(ngModel)]="isBirthDateManipulated" #flagBirthDateValue="ngModel" />
+                  <iq-datepicker [(ngModel)]="user.birthDate" name="birthDate" #fieldBirthDate="ngModel" required (change)="onBirthDateManipulation()"></iq-datepicker>
+                  <div *ngIf="flagBirthDateValue.value === true && (fieldBirthDate.errors && (fieldBirthDate.dirty || fieldBirthDate.touched))">
+                      <span id="helpBlock2" class="help-block" *ngIf="flagBirthDateValue.value === true && fieldBirthDate.errors.required">The Birth date is required.</span>
+                  </div>
                 </div>
-                -->
                 <div [ngClass]="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched) ? 'form-group has-error' : 'form-group'">
                   <label for="country">Country</label>
                   <select #fieldCountry="ngModel" [(ngModel)]="user.country" name="country" [ngClass]="['form-control']" required>

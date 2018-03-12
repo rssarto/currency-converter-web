@@ -13,6 +13,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { CountryModule } from 'ngx-country-list';
+import { IqDatepickerModule } from 'ngx-iq-datepicker';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AuthService } from './service/auth.service';
@@ -32,6 +33,7 @@ import { ConversionComponent } from './conversion/conversion.component';
 import { HistoricComponent } from './historic/historic.component';
 import { CurrencyService } from './service/currency.service';
 import { Interceptor } from './app.interceptor';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -56,6 +58,7 @@ import { Interceptor } from './app.interceptor';
     HttpClientModule,
     FormsModule,
     CountryModule,
+    IqDatepickerModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.threeBounce,
       fullScreenBackdrop : true
@@ -66,7 +69,7 @@ import { Interceptor } from './app.interceptor';
     ModalContentComponent
   ],
   providers: [AuthService, TokenStorage, AppsettingsService, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
-              DataService,
+              DataService, DatePipe,
              { provide: ErrorHandler, useClass: UIErrorHandler },
              { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true } ],
   bootstrap: [AppComponent]
