@@ -19,13 +19,25 @@
                     <span id="helpBlock2" class="help-block" *ngIf="fieldEmail.errors.email && !fieldEmail.errors.required">Invalid e-mail address.</span>
                   </div>
                 </div>
+                <!--
                 <div [ngClass]="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched) ? 'form-group has-error' : 'form-group'">
                     <label for="country">Country</label>
                     <input type="text" [ngClass]="['form-control']" #fieldCountry="ngModel" name="country" placeholder="Country" [(ngModel)]="user.country" required>
                     <div *ngIf="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched)">
                       <span id="helpBlock2" class="help-block" *ngIf="fieldCountry.errors.required">The Country is required.</span>
                     </div>
+                </div>
+                -->
+                <div [ngClass]="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched) ? 'form-group has-error' : 'form-group'">
+                  <label for="country">Country</label>
+                  <select #fieldCountry="ngModel" [(ngModel)]="user.country" name="country" [ngClass]="['form-control']" required>
+                    <option value="">SELECT</option>
+                    <option *ngFor="let country of countries" [value]="country.code">{{country.name}}</option>
+                  </select>
+                  <div *ngIf="fieldCountry.errors && (fieldCountry.dirty || fieldCountry.touched)">
+                    <span id="helpBlock2" class="help-block" *ngIf="fieldCountry.errors.required">The Country is required.</span>
                   </div>
+                </div>
                 <div [ngClass]="fieldZipCode.errors && (fieldZipCode.dirty || fieldZipCode.touched) ? 'form-group has-error' : 'form-group'">
                     <label for="street">Zip Code</label>
                     <input type="text" [ngClass]="['form-control']" #fieldZipCode="ngModel" name="zipCode" placeholder="Zip Code" [(ngModel)]="user.zipCode" required>

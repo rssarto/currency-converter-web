@@ -12,6 +12,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
+import { CountryModule } from 'ngx-country-list';
 
 import { AppRoutingModule } from './app.routing.module';
 import { AuthService } from './service/auth.service';
@@ -54,6 +55,7 @@ import { Interceptor } from './app.interceptor';
     ModalModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    CountryModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.threeBounce,
       fullScreenBackdrop : true

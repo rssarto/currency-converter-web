@@ -13,7 +13,7 @@ export class HistoricComponent implements OnInit {
   subscription: Subscription;
 
   newQuotation = new Quotation();
-  lastQuotations: any;
+  lastQuotations: Quotation[];
 
   constructor(private dataService: DataService, private currencyService: CurrencyService) {
     this.subscription = this.dataService.getNewQuotation().subscribe(

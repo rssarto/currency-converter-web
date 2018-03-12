@@ -1,4 +1,5 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="lastQuotations != null && lastQuotations.length > 0">
+    <h2>Last 10 convertions</h2>
     <div class="table-responsive">
       <table class="table table-hover">
         <thead>
@@ -19,4 +20,5 @@
         </tbody>
       </table>
     </div>
+    <p>* Click the line to repeat the quotation.</p>
 </div>
