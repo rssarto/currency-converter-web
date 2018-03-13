@@ -1,4 +1,6 @@
 # CurrencyConverterWeb
+The application is avaiable at heroku: 
+  https://currency-converter-web.herokuapp.com/
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.2.
 
