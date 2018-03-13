@@ -1,3 +1,4 @@
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { DataService } from './service/data.service';
 import { AppsettingsService } from './service/appsettings.service';
 import { NgModule, Injectable, ErrorHandler } from '@angular/core';
@@ -34,6 +35,7 @@ import { HistoricComponent } from './historic/historic.component';
 import { CurrencyService } from './service/currency.service';
 import { Interceptor } from './app.interceptor';
 import { DatePipe } from '@angular/common';
+import { AuthGuardService } from './service/auth-guard.service';
 
 
 @NgModule({
@@ -59,6 +61,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     CountryModule,
     IqDatepickerModule,
+    JwtModule,
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.threeBounce,
       fullScreenBackdrop : true
@@ -69,7 +72,7 @@ import { DatePipe } from '@angular/common';
     ModalContentComponent
   ],
   providers: [AuthService, TokenStorage, AppsettingsService, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
-              DataService, DatePipe,
+              DataService, DatePipe, JwtHelperService, AuthGuardService,
              { provide: ErrorHandler, useClass: UIErrorHandler },
              { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true } ],
   bootstrap: [AppComponent]
