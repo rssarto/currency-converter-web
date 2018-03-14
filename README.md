@@ -1,4 +1,4 @@
-# CurrencyConverterWeb
+# Currency Converter Web
 The application is avaiable at heroku: 
   https://currency-converter-web.herokuapp.com/
 
