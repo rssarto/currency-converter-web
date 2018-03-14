@@ -9,7 +9,7 @@ This is a basic application that demonstrate importante concepts used in an angu
   <li>Using Jwt (Json Web Tokens) to control user authentication;</li>
   <li>The use of HttpClient to call rest services;</li>
   <li>Route and Guard to control user navigation;</li>
-  <li>The use of Boostratp 3.0 as the style for the components;</li>
+  <li>The use of Bootstrap 3.0 as the style for the components;</li>
   <li>The use of bi-directional Services to provide communication between Components.</li>
 </ul>
 
