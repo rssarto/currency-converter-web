@@ -6,6 +6,7 @@ import { User } from '../model/user';
 import { UserService } from '../service/user.service';
 import { ContryService } from 'ngx-country-list';
 import { DatePipe } from '@angular/common';
+import { LoadingModule } from 'ngx-loading';
 
 @Component({
   selector: 'app-signup',
@@ -16,6 +17,7 @@ export class SignupComponent implements OnInit {
   isBirthDateManipulated  = false;
   user = new User();
   countries: Country[];
+  public loading = false;
 
   constructor(private router: Router, private userService: UserService, private countryService: ContryService, private datePipe: DatePipe) {
   }
@@ -26,6 +28,7 @@ export class SignupComponent implements OnInit {
   }
 
   onSignUp() {
+    this.loading = true;
     const birthDate = new Date(this.user.birthDate);
     this.user.birthDate = this.datePipe.transform(birthDate, 'dd/MM/yyyy');
     console.log('user date birth: ' + this.user.birthDate);
@@ -33,6 +36,7 @@ export class SignupComponent implements OnInit {
       data => {
         const returnedUser = <User>data;
         this.user = new User();
+        this.loading = false;
         this.router.navigate(['login']);
       }
     );
