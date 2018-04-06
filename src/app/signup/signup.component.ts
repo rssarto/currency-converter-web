@@ -14,10 +14,11 @@ import { LoadingModule } from 'ngx-loading';
   styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
+  public loading = false;
+
   isBirthDateManipulated  = false;
   user = new User();
   countries: Country[];
-  public loading = false;
 
   constructor(private router: Router, private userService: UserService, private countryService: ContryService, private datePipe: DatePipe) {
   }
