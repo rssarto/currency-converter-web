@@ -1,3 +1,5 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 import { Country } from './../model/country';
 import { Fault } from './../model/fault';
 import { Component, OnInit } from '@angular/core';
@@ -7,6 +9,7 @@ import { UserService } from '../service/user.service';
 import { ContryService } from 'ngx-country-list';
 import { DatePipe } from '@angular/common';
 import { LoadingModule } from 'ngx-loading';
+import { ModalService } from '../service/modal.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +23,8 @@ export class SignupComponent implements OnInit {
   user = new User();
   countries: Country[];
 
-  constructor(private router: Router, private userService: UserService, private countryService: ContryService, private datePipe: DatePipe) {
+  constructor(private router: Router, private userService: UserService, private countryService: ContryService, private datePipe: DatePipe,
+              private appModalService: ModalService) {
   }
 
   ngOnInit() {
@@ -39,6 +43,10 @@ export class SignupComponent implements OnInit {
         this.user = new User();
         this.loading = false;
         this.router.navigate(['login']);
+      },
+      errorData => {
+        this.loading = false;
+        this.appModalService.openModal(`${errorData.error.message}`);
       }
     );
   }
