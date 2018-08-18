@@ -1,20 +1,19 @@
-import { TRY_LOGIN } from './login.actions';
-import { Token } from "../../../node_modules/@angular/compiler";
+import { Token } from '@app/model/token';
 import * as LoginActions from '@app/store/login.actions';
 
 
 export interface State{
-    isAuthenticated: boolean,
-    result: Token
+    isAuthenticated: boolean;
+    result: Token;
 }
 
 const initialState = {
     isAuthenticated: false,
     result: null
-}
+};
 
 export function reducer(state = initialState, action: LoginActions.All): State{
-    switch(action.type){
+    switch(action.type) {
         case(LoginActions.TRY_LOGIN): {
             return{
                 ...state
@@ -31,7 +30,7 @@ export function reducer(state = initialState, action: LoginActions.All): State{
             return{
                 ...state,
                 isAuthenticated: false
-            }
+            };
         }
     }
 }

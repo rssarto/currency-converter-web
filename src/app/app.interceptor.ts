@@ -8,6 +8,7 @@ import { take, switchMap } from 'rxjs/operators';
 import 'rxjs/add/operator/do';
 import { Store } from '@ngrx/store';
 import * as fromLogin from '@app/store/reducers';
+import { Token } from '@app/model/token';
 
 
 const TOKEN_HEADER_KEY = 'Authorization';
@@ -21,10 +22,13 @@ export class Interceptor implements HttpInterceptor {
     return this.store.select(state => state.login).pipe(
       take(1),
       switchMap((value) => {
-        const authReq = req.clone({ headers: req.headers
-          .set(TOKEN_HEADER_KEY, 'Bearer ' + value.result)
-        });
-        
+        let httpHeaders = new HttpHeaders;
+        if (value.result != null) {
+          httpHeaders = httpHeaders.set(TOKEN_HEADER_KEY, 'Bearer ' + value.result.token);
+        }
+
+        const authReq = req.clone({ headers: httpHeaders });
+
         return next.handle(authReq).do(
           (err: any) => {
             if (err instanceof HttpErrorResponse) {
@@ -35,7 +39,7 @@ export class Interceptor implements HttpInterceptor {
               }
             }
           }
-        );        
+        );
       })
     );
 

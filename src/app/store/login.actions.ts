@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Credentials } from '@app/model/credentials';
-import { Token } from '../../../node_modules/@angular/compiler';
+import { Token } from '@app/model/token';
 
 export const TRY_LOGIN = '[Login] TRY_LOGIN';
 export const LOGIN_SUCCESS = '[Login] Success';
