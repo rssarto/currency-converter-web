@@ -1,12 +1,11 @@
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { TokenStorage } from './token.storage';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Credentials } from '../model/credentials';
 import { Token } from '../model/token';
-import { AppsettingsService } from './appsettings.service';
-import { AppSettings } from '../appsettings/appSettings';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class AuthService {
@@ -14,20 +13,12 @@ export class AuthService {
   jwtHelper: JwtHelperService;
 
   constructor(private http: HttpClient,
-              private appSettingsService: AppsettingsService,
               private tokenStorage: TokenStorage) {
     this.jwtHelper = new JwtHelperService();
-    appSettingsService.getSettings().subscribe(
-      settings => {
-        this.appSettings = settings;
-      }
-    );
   }
 
-  appSettings: AppSettings;
-
   attemptAuth(credentials: Credentials) {
-    return this.http.post<Token>(this.appSettings.authenticationUrl, credentials);
+    return this.http.post<Token>(environment.authenticationUrl, credentials);
   }
 
   isAuthenticated(): boolean {
@@ -37,5 +28,4 @@ export class AuthService {
     }
     return false;
   }
-
 }

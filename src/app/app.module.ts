@@ -1,6 +1,5 @@
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { DataService } from './service/data.service';
-import { AppsettingsService } from './service/appsettings.service';
 import { NgModule, Injectable, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +8,6 @@ import { HttpClientModule, HttpErrorResponse, HTTP_INTERCEPTORS } from '@angular
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
-import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
@@ -36,6 +34,10 @@ import { CurrencyService } from './service/currency.service';
 import { Interceptor } from './app.interceptor';
 import { DatePipe } from '@angular/common';
 import { AuthGuardService } from './service/auth-guard.service';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from '@app/store/reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { LoginEffects } from '@app/store/login.effects';
 
 
 @NgModule({
@@ -65,13 +67,15 @@ import { AuthGuardService } from './service/auth-guard.service';
     LoadingModule.forRoot({
       animationType: ANIMATION_TYPES.threeBounce,
       fullScreenBackdrop : true
-    })
+    }),
+    StoreModule.forRoot(reducers),
+    EffectsModule.forRoot([LoginEffects])
   ],
   entryComponents: [
     // Add here components that are created dynamically.
     ModalContentComponent
   ],
-  providers: [AuthService, TokenStorage, AppsettingsService, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
+  providers: [AuthService, TokenStorage, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
               DataService, DatePipe, JwtHelperService, AuthGuardService,
              { provide: ErrorHandler, useClass: UIErrorHandler },
              { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true } ],

@@ -1,21 +1,17 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../model/user';
-import { AppsettingsService } from './appsettings.service';
-import { AppSettings } from '../appsettings/appSettings';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class UserService {
 
-  constructor(private http: HttpClient, private appSettingsService: AppsettingsService) {
-    this.appSettingsService.getSettings().subscribe(settings => { this.appSettings = settings; });
+  constructor(private http: HttpClient) {
   }
 
-  appSettings: AppSettings;
-
   signUp(user: User): Observable<User> {
-    return this.http.post<User>(this.appSettings.signUpUrl, user);
+    return this.http.post<User>(environment.signUpUrl, user);
   }
 
 }

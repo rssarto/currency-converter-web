@@ -1,29 +1,26 @@
 import { Quotation } from './../model/quotation';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Currency } from './../model/currency';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppsettingsService } from './appsettings.service';
-import { AppSettings } from '../appsettings/appSettings';
+import { environment } from "@env/environment"
 
 @Injectable()
 export class CurrencyService {
 
-  constructor(private http: HttpClient, private appSettingsService: AppsettingsService) {
-    this.appSettingsService.getSettings().subscribe(settings => { this.appSettings = settings; });
+  constructor(private http: HttpClient) {
    }
 
-  appSettings: AppSettings;
-
   list(): Observable<Currency[]> {
-    return this.http.get<Currency[]>(this.appSettings.currencyListUrl);
+    return this.http.get<Currency[]>(environment.currencyListUrl);
   }
 
   quote(quotation: Quotation) {
-    return this.http.post<Quotation>(this.appSettings.quotationUrl, quotation);
+    return this.http.post<Quotation>(environment.quotationUrl, 
+                                     quotation);
   }
 
   historic() {
-    return this.http.get<Quotation[]>(this.appSettings.historicUrl);
+    return this.http.get<Quotation[]>(environment.historicUrl);
   }
 }
