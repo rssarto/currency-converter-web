@@ -1,7 +1,10 @@
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { TokenStorage } from '../service/token.storage';
+import { StorageService } from '@app/service/storage.service';
 import { AuthService } from '../service/auth.service';
+import * as fromLogin from '@app/store/reducers';
+import * as LoginActions from '@app/store/login.actions';
 
 @Component({
   selector: 'app-logout',
@@ -13,14 +16,13 @@ export class LogoutComponent implements OnInit {
   ngOnInit() {
   }
 
-  constructor(private authService: AuthService, private router: Router, private tokenStorage: TokenStorage) {
+  constructor(private store: Store<fromLogin.State>) {
     setTimeout(() => {
       this.logout();
     }, 3000);
   }
 
   logout() {
-    this.tokenStorage.signOut();
-    this.router.navigate(['']);
+    this.store.dispatch(new LoginActions.TryLogout);
   }
 }

@@ -36,7 +36,6 @@ export class SignupComponent implements OnInit {
     this.loading = true;
     const birthDate = new Date(this.user.birthDate);
     this.user.birthDate = this.datePipe.transform(birthDate, 'dd/MM/yyyy');
-    console.log('user date birth: ' + this.user.birthDate);
     this.userService.signUp(this.user).subscribe(
       data => {
         const returnedUser = <User>data;
@@ -53,6 +52,5 @@ export class SignupComponent implements OnInit {
 
   onBirthDateManipulation() {
     this.isBirthDateManipulated = true;
-    console.log('isBirthDateManipulated: ' + this.isBirthDateManipulated);
   }
 }

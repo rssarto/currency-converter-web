@@ -1,4 +1,4 @@
-import { TokenStorage } from './../service/token.storage';
+import { StorageService } from '@app/service/storage.service';
 import { AuthService } from './../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Credentials } from '../model/credentials';
@@ -25,12 +25,10 @@ export class LoginComponent implements OnInit {
 
   loginState: Observable<{result: Token}>;
 
-  constructor(private authService: AuthService,
-    private token: TokenStorage,
-    private router: Router,
-    private appModalService: ModalService,
-    private store: Store<fromLogin.State>,
-    private loginEffects: LoginEffects) { }
+  constructor(private router: Router,
+              private appModalService: ModalService,
+              private store: Store<fromLogin.State>,
+              private loginEffects: LoginEffects) { }
 
   ngOnInit() {
   }
@@ -56,8 +54,7 @@ export class LoginComponent implements OnInit {
       .subscribe((action) => {
         this.router.navigate(['panel']);
         this.loading = false;
-        console.log('login success');
-    });
+      });
 
     this.loginEffects.authLogin$
       .filter(action => action.type === LoginActions.LOGIN_FAILED)

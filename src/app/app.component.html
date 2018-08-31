@@ -4,12 +4,12 @@
           <span class="navbar-brand">Currency Converter</span>
       </div>
       <ul class="nav navbar-nav navbar-right">
-          <li><a routerLink="/login" *ngIf="tokenStorage.getToken()===null">
+          <li><a routerLink="/login" *ngIf="!(this.loginState$ | async).isAuthenticated">
             Login <span class="sr-only">(current)</span>
           </a></li>
-          <li><a routerLink="/panel" *ngIf="tokenStorage.getToken()!==null">Conversion</a></li>
-          <li><a routerLink="/logout" *ngIf="tokenStorage.getToken()!==null">Logout</a></li>
-          <li><a routerLink="/signup" *ngIf="tokenStorage.getToken()===null">Registration</a></li>
+          <li><a routerLink="/panel" *ngIf="(this.loginState$ | async).isAuthenticated">Conversion</a></li>
+          <li><a routerLink="/logout" *ngIf="(this.loginState$ | async).isAuthenticated">Logout</a></li>
+          <li><a routerLink="/signup" *ngIf="!(this.loginState$ | async).isAuthenticated">Registration</a></li>
       </ul>
   </div>
 </nav>

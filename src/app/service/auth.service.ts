@@ -1,5 +1,5 @@
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { TokenStorage } from './token.storage';
+import { StorageService } from '@app/service/storage.service';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -13,7 +13,7 @@ export class AuthService {
   jwtHelper: JwtHelperService;
 
   constructor(private http: HttpClient,
-              private tokenStorage: TokenStorage) {
+              private storageService: StorageService) {
     this.jwtHelper = new JwtHelperService();
   }
 
@@ -22,8 +22,8 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    if ( this.tokenStorage.getToken() !== null ) {
-      const token = this.tokenStorage.getToken();
+    if ( this.storageService.getToken() !== null ) {
+      const token = this.storageService.getToken();
       return !this.jwtHelper.isTokenExpired(token);
     }
     return false;

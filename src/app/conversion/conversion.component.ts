@@ -29,7 +29,6 @@ export class ConversionComponent implements OnInit {
               private appModalService: ModalService) {
     this.subscription = this.dataService.getHistoricQuotation().subscribe(
       data => {
-        console.log('received historic quotation');
         const historicQuotation = data;
         this.quotation = new Quotation();
         this.quotation.source = historicQuotation.source;
@@ -67,7 +66,6 @@ export class ConversionComponent implements OnInit {
 
   announceNewQuotation(quotation: Quotation) {
     this.dataService.sendNewQuotation(quotation);
-    console.log('announced new quotation: ' + quotation);
   }
 
 }

@@ -22,7 +22,7 @@ import { LoginComponent } from './login/login.component';
 import { ModalContentComponent } from './modal-content/modal-content.component';
 import { HomeComponent } from './home/home.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { TokenStorage } from './service/token.storage';
+import { StorageService } from '@app/service/storage.service';
 import { LogoutComponent } from './logout/logout.component';
 import { UserService } from './service/user.service';
 import { ModalService } from './service/modal.service';
@@ -38,6 +38,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers } from '@app/store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { LoginEffects } from '@app/store/login.effects';
+import { StoreService } from '@app/store/store.service';
 
 
 @NgModule({
@@ -75,7 +76,7 @@ import { LoginEffects } from '@app/store/login.effects';
     // Add here components that are created dynamically.
     ModalContentComponent
   ],
-  providers: [AuthService, TokenStorage, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
+  providers: [StoreService, AuthService, StorageService, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
               DataService, DatePipe, JwtHelperService, AuthGuardService,
              { provide: ErrorHandler, useClass: UIErrorHandler },
              { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true } ],

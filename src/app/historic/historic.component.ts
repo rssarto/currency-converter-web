@@ -38,6 +38,5 @@ export class HistoricComponent implements OnInit {
 
   announceHistoricQuotation(quotation: Quotation) {
     this.dataService.sendHistoricQuotation(quotation);
-    console.log('announced historic quotation: ' + quotation);
   }
 }
