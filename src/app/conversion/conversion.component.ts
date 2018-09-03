@@ -1,12 +1,12 @@
+import { take, map } from 'rxjs/operators';
+import { Observable } from 'rxjs/Observable';
+import { StoreService } from '@app/store/store.service';
 import { Currency } from './../model/currency';
 import { Component, OnInit } from '@angular/core';
 import { CurrencyService } from '../service/currency.service';
 import { Quotation } from '../model/quotation';
-import { HistoricComponent } from '../historic/historic.component';
-import { DataService } from '../service/data.service';
-import { Subscription } from 'rxjs/Subscription';
 import { ModalService } from '../service/modal.service';
-import { LoadingModule } from 'ngx-loading';
+import * as QuotationActions from '@app/store/quotation.actions';
 
 @Component({
   selector: 'app-conversion',
@@ -16,36 +16,28 @@ import { LoadingModule } from 'ngx-loading';
 export class ConversionComponent implements OnInit {
 
   public loading = false;
-
-  subscription: Subscription;
-  currencyList: Currency[];
-  currency: Currency;
+  currencyList$: Observable<Currency[]>;
   quotation = new Quotation;
 
-  result: number;
-
   constructor(private currencyService: CurrencyService,
-              private dataService: DataService,
-              private appModalService: ModalService) {
-    this.subscription = this.dataService.getHistoricQuotation().subscribe(
-      data => {
-        const historicQuotation = data;
-        this.quotation = new Quotation();
-        this.quotation.source = historicQuotation.source;
-        this.quotation.amount = historicQuotation.amount;
-        this.quotation.destination = historicQuotation.destination;
-      }
-    );
-   }
+              private appModalService: ModalService,
+              private storeService: StoreService) {}
 
   ngOnInit() {
-    this.currencyService.list().subscribe(
-      data => {
-        this.currencyList = <Currency[]> data;
-      }
-    );
+    this.currencyList$ = this.currencyService.list();
     this.quotation.source = '';
     this.quotation.destination = '';
+
+    this.storeService.getQuotationState().
+      pipe(
+        map((state) => state.historicQuotationSelected)
+      ).subscribe((quotationState: Quotation) => {
+        if ( quotationState ) {
+          this.quotation.source = quotationState.source;
+          this.quotation.destination = quotationState.destination;
+          this.quotation.amount = quotationState.amount;
+        }
+      });
   }
 
   onConversion() {
@@ -55,7 +47,7 @@ export class ConversionComponent implements OnInit {
         data => {
           const newQuotation = <Quotation>data;
           this.quotation.result = newQuotation.result;
-          this.announceNewQuotation(newQuotation);
+          this.storeService.dispatchAction(new QuotationActions.TryUpdateQuotationHistory);
           this.loading = false;
         }
       );
@@ -63,9 +55,4 @@ export class ConversionComponent implements OnInit {
       this.appModalService.openModal('Invalid quotation.');
     }
   }
-
-  announceNewQuotation(quotation: Quotation) {
-    this.dataService.sendNewQuotation(quotation);
-  }
-
 }

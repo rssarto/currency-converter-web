@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf="lastQuotations != null && lastQuotations.length > 0">
+<div class="container-fluid">
     <h2>Last 10 convertions</h2>
     <div class="table-responsive">
       <table class="table table-hover">
@@ -10,7 +10,7 @@
           <th>When</th>
         </thead>
         <tbody>
-          <tr *ngFor="let quotation of lastQuotations" (click)="announceHistoricQuotation(quotation)">
+          <tr *ngFor="let quotation of (this.quotationState$ | async).quotationHistory" (click)="announceHistoricQuotation(quotation)">
             <td>{{quotation.source}}</td>
             <td>{{quotation.destination}}</td>
             <td>{{quotation.amount}}</td>

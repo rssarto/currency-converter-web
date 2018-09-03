@@ -1,15 +1,13 @@
-import { StorageService } from '@app/service/storage.service';
-import { AuthService } from './../service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Credentials } from '../model/credentials';
 import { Router } from '@angular/router';
 import { ModalService } from '../service/modal.service';
-import { Store } from '@ngrx/store';
-import * as fromLogin from '@app/store/reducers';
 import { Observable } from '../../../node_modules/rxjs';
 import { Token } from '../../../node_modules/@angular/compiler';
 import * as LoginActions from '@app/store/login.actions';
+import * as QuotationActions from '@app/store/quotation.actions';
 import { LoginEffects } from '@app/store/login.effects';
+import { StoreService } from '@app/store/store.service';
 
 @Component({
   selector: 'app-login',
@@ -27,33 +25,22 @@ export class LoginComponent implements OnInit {
 
   constructor(private router: Router,
               private appModalService: ModalService,
-              private store: Store<fromLogin.State>,
-              private loginEffects: LoginEffects) { }
+              private loginEffects: LoginEffects,
+              private storeService: StoreService) { }
 
   ngOnInit() {
   }
 
   login(): void {
     this.loading = true;
-    /*
-    this.authService.attemptAuth(new Credentials(this.userName, this.password)).subscribe(
-      data => {
-        this.token.saveToken(data.token);
-        this.router.navigate(['panel']);
-        this.loading = false;
-      },
-      errorData => {
-        this.appModalService.openModal('Invalid credentials.');
-        this.loading = false;
-      }
-    );
-    */
-    this.store.dispatch(new LoginActions.TryLogin(new Credentials(this.userName, this.password)));
+
+    this.storeService.dispatchAction(new LoginActions.TryLogin(new Credentials(this.userName, this.password)));
     this.loginEffects.authLogin$
       .filter(action => action.type === LoginActions.LOGIN_SUCCESS)
       .subscribe((action) => {
         this.router.navigate(['panel']);
         this.loading = false;
+        this.storeService.dispatchAction(new QuotationActions.TryUpdateQuotationHistory);
       });
 
     this.loginEffects.authLogin$
@@ -63,17 +50,4 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       });
   }
-
-  /*
-  openModal(message: string) {
-    const initialState = {
-      list: [
-        message
-      ],
-      title: 'Message'
-    };
-    this.modalRef = this.modalService.show(ModalContentComponent, {initialState});
-    this.modalRef.content.closeBtnName = 'Close';
-  }
-  */
 }

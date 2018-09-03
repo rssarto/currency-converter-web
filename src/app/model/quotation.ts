@@ -7,7 +7,7 @@ export class Quotation {
   amount: number;
   result: number;
 
-  isValid(){
+  isValid() {
     return this.source !== '' && this.destination !== '' && this.amount > 0;
   }
 }

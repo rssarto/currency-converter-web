@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Currency } from './../model/currency';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from "@env/environment"
+import { environment } from '@env/environment';
 
 @Injectable()
 export class CurrencyService {
@@ -16,7 +16,7 @@ export class CurrencyService {
   }
 
   quote(quotation: Quotation) {
-    return this.http.post<Quotation>(environment.quotationUrl, 
+    return this.http.post<Quotation>(environment.quotationUrl,
                                      quotation);
   }
 

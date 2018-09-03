@@ -7,7 +7,7 @@
       <div class="col-xs-8 pull-right">
         <select class="form-control" id="sourceCurrency" name="sourceCurrency" [(ngModel)]="quotation.source" #fieldSourceCurrency="ngModel" required>
               <option value="" selected="selected">SELECT</option>
-              <option *ngFor="let currency of currencyList" value="{{currency.initials}}">{{currency.initials + ' - ' + currency.description}}</option>
+              <option *ngFor="let currency of (this.currencyList$ | async)" value="{{currency.initials}}">{{currency.initials + ' - ' + currency.description}}</option>
           </select>
       </div>
     </div>
@@ -30,7 +30,7 @@
       <div class="col-xs-8 pull-right">
           <select class="form-control" id="destinationCurrency" name="destinationCurrency" [(ngModel)]="quotation.destination" #fieldDestinationCurrency="ngModel" required>
               <option value="" selected="selected">SELECT</option>
-              <option *ngFor="let currency of currencyList" value="{{currency.initials}}">{{currency.initials + ' - ' + currency.description}}</option>
+              <option *ngFor="let currency of (this.currencyList$ | async)" value="{{currency.initials}}">{{currency.initials + ' - ' + currency.description}}</option>
           </select>
           <div *ngIf="( (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.value === fieldDestinationCurrency.value || (fieldDestinationCurrency.dirty || fieldDestinationCurrency.touched) && fieldSourceCurrency.errors )">
             <span id="helpBlock2" class="help-block" *ngIf="fieldDestinationCurrency.errors && fieldDestinationCurrency.errors.required">The destination currency is required.</span>

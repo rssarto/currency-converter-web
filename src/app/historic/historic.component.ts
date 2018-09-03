@@ -1,8 +1,10 @@
 import { Subscription } from 'rxjs/Subscription';
 import { Quotation } from './../model/quotation';
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../service/data.service';
-import { CurrencyService } from '../service/currency.service';
+import { StoreService } from '@app/store/store.service';
+import { Observable } from 'rxjs';
+import * as fromQuotationState from '@app/store/quotation.reducer';
+import * as QuotationActions from '@app/store/quotation.actions';
 
 @Component({
   selector: 'app-historic',
@@ -10,33 +12,18 @@ import { CurrencyService } from '../service/currency.service';
   styleUrls: ['./historic.component.css']
 })
 export class HistoricComponent implements OnInit {
+  quotationState$: Observable<fromQuotationState.State>;
+
   subscription: Subscription;
 
   newQuotation = new Quotation();
-  lastQuotations: Quotation[];
-
-  constructor(private dataService: DataService, private currencyService: CurrencyService) {
-    this.subscription = this.dataService.getNewQuotation().subscribe(
-      data => {
-        this.newQuotation = data;
-        this.onHistoric();
-      }
-    );
-  }
+  constructor(private storeService: StoreService) {}
 
   ngOnInit() {
-    this.onHistoric();
-  }
-
-  onHistoric() {
-    this.currencyService.historic().subscribe(
-      data => {
-        this.lastQuotations = data;
-      }
-    );
+    this.quotationState$ = this.storeService.getQuotationState();
   }
 
   announceHistoricQuotation(quotation: Quotation) {
-    this.dataService.sendHistoricQuotation(quotation);
+    this.storeService.dispatchAction(new QuotationActions.SetHistoricSelectedQuotation(quotation));
   }
 }

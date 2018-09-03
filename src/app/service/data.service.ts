@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 import { Quotation } from '../model/quotation';
 
+/*@deprecated*/
 @Injectable()
 export class DataService {
 

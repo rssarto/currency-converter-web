@@ -1,5 +1,4 @@
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
-import { DataService } from './service/data.service';
 import { NgModule, Injectable, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -39,6 +38,7 @@ import { reducers } from '@app/store/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { LoginEffects } from '@app/store/login.effects';
 import { StoreService } from '@app/store/store.service';
+import { QuotationEffects } from '@app/store/quotation.effects';
 
 
 @NgModule({
@@ -70,14 +70,14 @@ import { StoreService } from '@app/store/store.service';
       fullScreenBackdrop : true
     }),
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([LoginEffects])
+    EffectsModule.forRoot([LoginEffects, QuotationEffects])
   ],
   entryComponents: [
     // Add here components that are created dynamically.
     ModalContentComponent
   ],
   providers: [StoreService, AuthService, StorageService, BsModalService, BsModalRef, UserService, ModalService, CurrencyService,
-              DataService, DatePipe, JwtHelperService, AuthGuardService,
+              DatePipe, JwtHelperService, AuthGuardService,
              { provide: ErrorHandler, useClass: UIErrorHandler },
              { provide: HTTP_INTERCEPTORS, useClass: Interceptor, multi: true } ],
   bootstrap: [AppComponent]
